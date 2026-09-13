@@ -64,6 +64,13 @@ return [
             ]) : [],
         ],
 
+            'mongodb' => [
+                'driver' => 'mongodb',
+                'dsn' => env('MONGODB_URI'),
+                'database' => env('MONGODB_DATABASE', 'taskflow'),
+            ],
+
+
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),
