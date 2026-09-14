@@ -1,3 +1,11 @@
+@php
+    $currentUser = auth()->user();
+    $firstName = $currentUser?->first_name ?? '';
+    $lastName = $currentUser?->last_name ?? '';
+    $displayName = trim($firstName.' '.$lastName) ?: ($currentUser?->name ?? 'Guest');
+    $initials = strtoupper(substr($firstName, 0, 1).substr($lastName, 0, 1)) ?: 'G';
+@endphp
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -100,18 +108,23 @@
                 <div
                     class="grid size-9 place-items-center rounded-full bg-gradient-to-br from-pink-300 to-violet-400 text-sm font-bold text-white"
                 >
-                    JD
+                    {{ $initials }}
                 </div>
 
                 <div>
                     <p class="text-sm font-semibold text-white">
-                        Jordan Davis
+                        {{ $displayName }}
                     </p>
 
                     <p class="text-xs text-slate-400">
-                        Product designer
+                        Workspace member
                     </p>
                 </div>
+
+                <form method="POST" action="{{ route('logout') }}" class="ml-auto">
+                    @csrf
+                    <button type="submit" class="text-xs font-medium text-slate-400 transition hover:text-white">Sign out</button>
+                </form>
             </div>
         </aside>
 
@@ -137,7 +150,7 @@
         </p>
 
         <h1 class="mt-1 text-2xl font-bold tracking-tight sm:text-3xl">
-            {{ $greeting }}, {{ auth()->user()->first_name }} 👋
+            {{ $greeting }}, {{ $firstName ?: $displayName }} 👋
         </h1>
     </div>
 

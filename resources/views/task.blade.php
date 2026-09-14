@@ -1,3 +1,11 @@
+@php
+    $currentUser = auth()->user();
+    $firstName = $currentUser?->first_name ?? '';
+    $lastName = $currentUser?->last_name ?? '';
+    $displayName = trim($firstName.' '.$lastName) ?: ($currentUser?->name ?? 'Guest');
+    $initials = strtoupper(substr($firstName, 0, 1).substr($lastName, 0, 1)) ?: 'G';
+@endphp
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -17,7 +25,7 @@
                     <a href="#calendar" class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition hover:bg-white/8 hover:text-white">▣ Calendar</a>
                 </nav>
                 <div class="mt-8 border-t border-white/10 pt-6"><p class="px-3 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">Workspace</p><a href="#team" class="mt-3 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium hover:bg-white/8 hover:text-white"><span class="grid size-5 place-items-center rounded-md bg-amber-300 text-[10px] font-bold text-amber-950">A</span>Acme Studio</a></div>
-                <div class="mt-auto flex items-center gap-3 border-t border-white/10 pt-5"><div class="grid size-9 place-items-center rounded-full bg-gradient-to-br from-pink-300 to-violet-400 text-sm font-bold text-white">JD</div><div><p class="text-sm font-semibold text-white">Jordan Davis</p><p class="text-xs text-slate-400">Product designer</p></div></div>
+                <div class="mt-auto flex items-center gap-3 border-t border-white/10 pt-5"><div class="grid size-9 place-items-center rounded-full bg-gradient-to-br from-pink-300 to-violet-400 text-sm font-bold text-white">{{ $initials }}</div><div><p class="text-sm font-semibold text-white">{{ $displayName }}</p><p class="text-xs text-slate-400">Workspace member</p></div></div>
             </aside>
 
             <main class="min-w-0 px-5 py-6 sm:px-8 lg:px-10 lg:py-8">
